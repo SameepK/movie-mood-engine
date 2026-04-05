@@ -22,7 +22,7 @@ function validateParsedMood(value: unknown): ParsedMood {
     throw new Error("Gemini response has invalid genres");
   }
 
-  if (typeof minRating !== "number" || minRating < 6.5 || minRating > 8.5) {
+  if (typeof minRating !== "number" || minRating < 6.0 || minRating > 9.0) {
     throw new Error("Gemini response has invalid minRating");
   }
 
@@ -59,7 +59,7 @@ function validateParsedMood(value: unknown): ParsedMood {
 const systemInstruction = `You are a mood-to-movie-criteria parser.
 Return ONLY a raw JSON object with these exact fields:
 genres: array of TMDB genre IDs as numbers
-minRating: number between 6.5 and 8.5
+minRating: number between 6.0 and 9.0
 maxVoteCount: number, default 100000
 timeCommitment: "short", "medium", or "long"
 mood: one word describing the mood
@@ -88,7 +88,7 @@ export async function parseMood(text: string): Promise<ParsedMood> {
 
   const genAI = new GoogleGenerativeAI(apiKey);
   const model = genAI.getGenerativeModel({
-    model: "gemini-1.5-flash",
+    model: "gemini-1.5-flash-latest",
     systemInstruction,
   });
 
